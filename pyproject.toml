@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jobspy-mcp"
+version = "0.1.0"
+description = "MCP server exposing JobSpy job-search capabilities"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Andrij David", email = "david@geek.mg" }]
+requires-python = ">=3.10"
+keywords = ["mcp", "jobspy", "job-search", "linkedin", "indeed", "glassdoor"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+]
+
+dependencies = [
+    "mcp>=1.8.0",
+    "python-jobspy>=1.1.82,<1.2.0",
+]
+
+[project.scripts]
+jobspy-mcp = "jobspy_mcp.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/andrijdavid/jobspy-mcp"
+Repository = "https://github.com/andrijdavid/jobspy-mcp"
+Issues = "https://github.com/andrijdavid/jobspy-mcp/issues"
+Changelog = "https://github.com/andrijdavid/jobspy-mcp/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jobspy_mcp"]
+
+[tool.hatch.version]
+path = "src/jobspy_mcp/__init__.py"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
