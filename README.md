@@ -4,10 +4,18 @@ MCP server wrapping [JobSpy](https://github.com/speedyapply/JobSpy) to search Li
 
 ## Quick Start
 
-Run directly with `uvx`:
+Run directly with `uvx` (stdio, default):
 
 ```bash
 uvx jobspy-mcp
+```
+
+Or with SSE / HTTP transports:
+
+```bash
+uvx jobspy-mcp --transport sse                        # SSE on 127.0.0.1:8000
+uvx jobspy-mcp --transport streamable-http            # HTTP on 127.0.0.1:8000
+uvx jobspy-mcp --transport sse --host 0.0.0.0 --port 9000
 ```
 
 Or install globally:
@@ -16,6 +24,14 @@ Or install globally:
 pip install jobspy-mcp
 jobspy-mcp
 ```
+
+### CLI Options
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--transport` | `stdio` | `stdio`, `sse`, or `streamable-http` |
+| `--host` | `127.0.0.1` | Bind host (SSE/HTTP only) |
+| `--port` | `8000` | Bind port (SSE/HTTP only) |
 
 ## Claude Desktop Configuration
 
