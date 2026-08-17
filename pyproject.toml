@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "jobspy-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "MCP server exposing JobSpy job-search capabilities"
 readme = "README.md"
 license = { text = "AGPL-3.0-or-later" }
@@ -24,7 +24,8 @@ classifiers = [
 ]
 
 dependencies = [
-    "mcp>=1.8.0",
+    # mcp 2.0 dropped mcp.server.fastmcp (renamed to mcp.server.mcpserver)
+    "mcp>=1.8.0,<2",
     "python-jobspy>=1.1.82,<1.2.0",
 ]
 

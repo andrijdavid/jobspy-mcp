@@ -72,3 +72,7 @@ venv.bak/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# local secrets / tooling
+.mcpregistry_*_token
+opencode.json
