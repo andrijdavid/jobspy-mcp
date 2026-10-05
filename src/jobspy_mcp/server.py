@@ -107,9 +107,22 @@ async def search_jobs(
         "If True, filter for Easy Apply / Quick Apply jobs only (LinkedIn/Indeed). "
         "Note: cannot combine with hours_old on LinkedIn.",
     ] = None,
+    fetch_description: Annotated[
+        bool,
+        "If True, fetch full job descriptions on every site that supports it "
+        "(slower, more requests).",
+    ] = False,
     linkedin_fetch_description: Annotated[
         bool,
-        "If True, fetch full job descriptions from LinkedIn (slower, more requests).",
+        "Deprecated: use fetch_description. Treated as fetch_description=True.",
+    ] = False,
+    linkedin_company_ids: Annotated[
+        Optional[list[int]],
+        "Restrict LinkedIn results to these LinkedIn company ids.",
+    ] = None,
+    enforce_annual_salary: Annotated[
+        bool,
+        "If True, convert hourly/monthly salaries to annual amounts.",
     ] = False,
     offset: Annotated[
         int,
@@ -117,12 +130,16 @@ async def search_jobs(
     ] = 0,
     description_format: Annotated[
         str,
-        "Format for job descriptions: 'markdown' or 'html'.",
+        "Format for job descriptions: 'markdown', 'html' or 'plain'.",
     ] = "markdown",
     proxies: Annotated[
         Optional[list[str]],
         "List of proxy URLs to rotate through, e.g. ['http://user:pass@host:port']. "
         "Recommended for LinkedIn to avoid rate limiting.",
+    ] = None,
+    user_agent: Annotated[
+        Optional[str],
+        "Override the HTTP User-Agent sent to job boards.",
     ] = None,
 ) -> dict:
     """Search jobs across multiple job boards."""
@@ -138,16 +155,19 @@ async def search_jobs(
         "distance": distance,
         "country_indeed": country_indeed,
         "easy_apply": easy_apply,
-        "linkedin_fetch_description": linkedin_fetch_description,
+        # jobspy 1.2.0 deprecated linkedin_fetch_description; fold it in
+        "fetch_description": fetch_description or linkedin_fetch_description,
+        "linkedin_company_ids": linkedin_company_ids,
+        "enforce_annual_salary": enforce_annual_salary,
         "offset": offset,
         "description_format": description_format,
         "proxies": proxies,
+        "user_agent": user_agent,
         "verbose": 0,
     }
 
     try:
-        loop = asyncio.get_event_loop()
-        df = await loop.run_in_executor(None, _run_scrape, kwargs)
+        df = await asyncio.to_thread(_run_scrape, kwargs)
         records = dataframe_to_json_records(df)
         return {"total": len(records), "jobs": records}
     except Exception as exc:
