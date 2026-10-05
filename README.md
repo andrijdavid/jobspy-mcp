@@ -72,10 +72,14 @@ On Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 | `distance` | int | 50 | Search radius in miles |
 | `country_indeed` | str | "usa" | Country for Indeed/Glassdoor |
 | `easy_apply` | bool | None | Easy Apply filter |
-| `linkedin_fetch_description` | bool | False | Fetch full LinkedIn descriptions |
+| `fetch_description` | bool | False | Fetch full descriptions on every site that supports it (slower) |
+| `linkedin_fetch_description` | bool | False | Deprecated alias for `fetch_description` |
+| `linkedin_company_ids` | list[int] | None | Restrict LinkedIn results to these company ids |
+| `enforce_annual_salary` | bool | False | Convert hourly/monthly salaries to annual |
 | `offset` | int | 0 | Pagination offset |
-| `description_format` | str | "markdown" | "markdown" or "html" |
+| `description_format` | str | "markdown" | "markdown", "html" or "plain" |
 | `proxies` | list[str] | None | Proxy URLs for rate limit avoidance |
+| `user_agent` | str | None | Override the HTTP User-Agent |
 
 ### Supported Sites
 

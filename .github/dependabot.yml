@@ -8,6 +8,10 @@ updates:
       jobspy:
         patterns:
           - "python-jobspy"
+    ignore:
+      # mcp 2.0 dropped mcp.server.fastmcp
+      - dependency-name: "mcp"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
